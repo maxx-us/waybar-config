@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkMenu" id="menu">
+    <child>
+      <object class="GtkMenuItem" id="detect">
+        <property name="label">󰑓  Detect / auto-setup</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="arrange">
+        <property name="label">󰍹  Arrange displays…</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="apply">
+        <property name="label">󰄬  Re-apply saved layout</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="sep"/>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="profiles">
+        <property name="label">󰋗  Show saved profiles</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="forget">
+        <property name="label">󰆴  Forget this layout &amp; redo</property>
+      </object>
+    </child>
+  </object>
+</interface>

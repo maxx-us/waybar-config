@@ -1,0 +1,324 @@
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 32,
+    "spacing": 3,
+    "margin": 0,
+    "modules-left": [
+        "group/hardware",
+        "tray",
+        "group/dock"
+    ],
+    "modules-center": [
+        "clock",
+        "niri/workspaces",
+        "niri/language"
+    ],
+    "modules-right": [
+        "group/media",
+        "group/status"
+    ],
+    "custom/displays": {
+        "exec": "/usr/local/bin/niri-displays status",
+        "return-type": "json",
+        "interval": 5,
+        "menu": "on-click",
+        "menu-file": "/home/sunskin/.config/waybar/displays-menu.xml",
+        "menu-actions": {
+            "detect":   "/usr/local/bin/niri-displays rescan",
+            "arrange":  "/usr/local/bin/niri-displays arrange",
+            "apply":    "/usr/local/bin/niri-displays apply",
+            "profiles": "sh -c 'notify-send -a niri-displays Profiles \"$(/usr/local/bin/niri-displays list)\"'",
+            "forget":   "sh -c '/usr/local/bin/niri-displays forget; /usr/local/bin/niri-displays rescan'"
+        },
+        "on-click-right": "/usr/local/bin/niri-displays arrange"
+    },
+    
+    "group/dock": {
+        "orientation": "horizontal",
+        "modules": ["custom/menu", "cffi/niri-taskbar"]
+    },
+    "custom/below": {
+        "exec": "python3 ~/.config/waybar/scripts/ws-below.py",
+        "return-type": "json",
+        "format": "{}",
+        "tooltip": true
+    },
+    "cffi/niri-taskbar": {
+        "module_path": "/home/sunskin/.config/waybar/modules/libniri_taskbar.so"
+    },
+    "custom/menu": {
+        "format": "\u00a0\u00a0\u00a0",
+        "tooltip": false,
+        "on-click": "python3 /home/sunskin/.config/waybar/winmenu/winmenu.py --show"
+    },
+    "group/status": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/displays",
+            "custom/volume",
+            "backlight",
+            "network",
+            "bluetooth",
+            "battery"
+        ]
+    },
+    "niri/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "active": "",
+            "default": ""
+        }
+    },
+    "niri/window": {
+    	"format": "<span color='#FFD700'>  {title}</span>",
+    	"rewrite": {
+    		"(.*) - Mozilla Firefox": "🌎 $1",
+    		"(.*) - zsh": "> [$1]"
+    	}
+    },
+    "custom/hardware-wrap": {
+    	  "format": "",
+    	  "tooltip-format": "Resource Usage"
+    },
+    "group/hardware": {
+        "orientation": "horizontal",
+        "drawer": {
+        	  "transition-duration": 500,
+        	  "transition-left-to-right": true
+        },
+        "modules": [
+        	  "custom/hardware-wrap",
+            "power-profiles-daemon",
+        	  "cpu",
+        	  "memory",
+        	  "temperature",
+            "disk"
+        ]
+    },
+    "custom/session-wrap": {
+        "format": "<span color='#63a4ff'>  </span>",
+    	  "tooltip-format": "Lock, Reboot, Shutdown"
+    },
+    "group/session": {
+        "orientation": "horizontal",
+        "drawer": {
+        	  "transition-duration": 500,
+        	  "transition-left-to-right": true
+        },
+        "modules": [
+        	  "custom/session-wrap",
+            "custom/lock",
+            "custom/reboot",
+            "custom/power"
+        ]
+    },
+    "custom/lock": {
+        "format": "<span color='#00FFFF'>  </span>",
+        "on-click": "swaylock -c 000000",
+        "tooltip": true,
+        "tooltip-format": "Lock screen"
+    },
+    "custom/reboot": {
+        "format": "<span color='#FFD700'>  </span>",
+        "on-click": "systemctl reboot",
+        "tooltip": true,
+        "tooltip-format": "Reboot"
+    },
+    "custom/power": {
+        "format": "<span color='#FF4040'>  </span>",
+        "on-click": "systemctl poweroff",
+        "tooltip": true,
+        "tooltip-format": "Power Off"
+    },
+    "clock": {
+        "format": "󰥔 {:%H:%M 󰃮 %B %d, %Y}",
+        "format-alt": "󰥔 {:%H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "on-click-right": "mode",
+            "format": {
+                "months": "<span color='#d3c6aa'><b>{}</b></span>",
+                "days": "<span color='#e67e80'>{}</span>",
+                "weeks": "<span color='#a7c080'><b>W{}</b></span>",
+                "weekdays": "<span color='#7fbbb3'><b>{}</b></span>",
+                "today": "<span color='#dbbc7f'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+    "cpu": {
+        "format": "󰘚 {usage}%",
+        "tooltip": true,
+        "interval": 1,
+        "on-click": "alacritty -e htop"
+    },
+    "memory": {
+        "format": "󰍛 {}%",
+        "interval": 1,
+        "on-click": "alacritty -e htop"
+    },
+    "temperature": {
+        "critical-threshold": 80,
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": [
+            "󱃃",
+            "󰔏",
+            "󱃂"
+        ]
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰚥 {capacity}%",
+        "format-alt": "{icon} {time}",
+        "format-icons": [
+            "󰂎",
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󰁹"
+        ]
+    },
+    
+    "experimental": true, // Required for custom modules
+
+    "custom/niri-taskbar": {
+        "type": "cffi",
+        "module": "niri-taskbar",
+        "path": "/usr/lib/libniri_taskbar.so", 
+        "config": {
+            "show_all_outputs": false
+        }
+    },
+
+    "network": {
+        "format-wifi": "󰖩 {essid} ({signalStrength}%)",
+        "format-ethernet": "󰈀 {ifname}",
+        "format-linked": "󰈀 {ifname} (No IP)",
+        "format-disconnected": "󰖪 Disconnected",
+        "tooltip-format": "{ifname}: {ipaddr}",
+        "on-click": "~/.config/waybar/scripts/wifi-menu.py"
+    },
+    "bluetooth": {
+        "format": "\udb80\udcaf {status}",
+        "format-on": "\udb80\udcaf On",
+        "format-off": "\udb80\udcb2 Off",
+        "format-disabled": "\udb80\udcb2 N/A",
+        "format-connected": "\udb80\udcb1 {device_alias}",
+        "format-connected-battery": "\udb80\udcb1 {device_alias} {device_battery_percentage}%",
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "~/.config/waybar/scripts/bluetooth-menu.sh"
+    },
+    "custom/volume": {
+        "exec": "~/.config/waybar/scripts/volume-status.sh",
+        "return-type": "json",
+        "interval": 1,
+        "format": "{}",
+        "tooltip": true,
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "~/.config/waybar/scripts/vol-step.sh up",
+        "on-scroll-down": "~/.config/waybar/scripts/vol-step.sh down"
+    },
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": [
+            "󰃞",
+            "󰃟",
+            "󰃠"
+        ],
+        "on-scroll-up": "~/.config/waybar/scripts/bright-step.sh down",
+        "on-scroll-down": "~/.config/waybar/scripts/bright-step.sh up"
+    },
+    "disk": {
+        "interval": 30,
+        "format": "󰋊 {percentage_used}%",
+        "path": "/"
+    },
+        "group/media": {
+        "orientation": "horizontal",
+        "modules": ["custom/media-prev", "custom/media", "custom/media-next"]
+    },
+    "custom/media": {
+        "exec": "~/.config/waybar/scripts/media.sh",
+        "return-type": "json",
+        "interval": 2,
+        "format": "{}",
+        "tooltip": true,
+        "on-click": "~/.config/waybar/scripts/media-click.sh",
+        "on-click-middle": "playerctl previous",
+        "on-click-right": "playerctl next"
+    },
+    "mpris": {
+        // pause glyph while playing, play glyph while paused
+        "format": "{status_icon} {dynamic}",
+        "status-icons": {
+            "playing": "\uf04c",
+            "paused": "\uf04b",
+            "stopped": "\uf04d"
+        },
+        "dynamic-order": ["artist", "title"],
+        "dynamic-separator": " – ",
+        "dynamic-len": 40,
+        "tooltip-format": "{player}\n{artist} – {title}\n{album}",
+        "on-click": "play-pause",
+        "on-click-middle": "previous",
+        "on-click-right": "next"
+    },
+    // visible skip buttons, hidden automatically when no player is running
+    "custom/media-prev": {
+        "exec-if": "playerctl status",
+        "exec": "echo '\uf048'",
+        "format": "{}",
+        "interval": 3,
+        "on-click": "playerctl previous",
+        "tooltip": false
+    },
+    "custom/media-next": {
+        "exec-if": "playerctl status",
+        "exec": "echo '\uf051'",
+        "format": "{}",
+        "interval": 3,
+        "on-click": "playerctl next",
+        "tooltip": false
+    },
+    "tray": {
+        "icon-size": 16,
+        "spacing": 5
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
+    }
+}

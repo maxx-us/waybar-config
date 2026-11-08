@@ -1,0 +1,404 @@
+/* Pastel TTY Colors */
+@define-color background #212121;
+@define-color background-light #3a3a3a;
+@define-color foreground #e0e0e0;
+@define-color black #5a5a5a;
+@define-color red #ff9a9e;
+@define-color green #b5e8a9;
+@define-color yellow #ffe6a7;
+@define-color blue #63a4ff;
+@define-color magenta #dda0dd;
+@define-color cyan #a3e8e8;
+@define-color white #ffffff;
+@define-color orange #ff8952;
+
+/* Module-specific colors */
+@define-color workspaces-color @foreground;
+@define-color workspaces-focused-bg @green;
+@define-color workspaces-focused-fg @cyan;
+@define-color workspaces-urgent-bg @red;
+@define-color workspaces-urgent-fg @black;
+
+@define-color mode-color @orange;
+@define-color group-hardware-color @blue;
+@define-color group-session-color @red;
+@define-color clock-color @blue;
+@define-color cpu-color @green;
+@define-color memory-color @magenta;
+@define-color temperature-color @yellow;
+@define-color temperature-critical-color @red;
+@define-color battery-color @cyan;
+@define-color battery-charging-color @green;
+@define-color battery-warning-color @yellow;
+@define-color battery-critical-color @red;
+@define-color network-color @blue;
+@define-color network-disconnected-color @red;
+@define-color bluetooth-color @magenta;
+@define-color bluetooth-connected-color @green;
+@define-color bluetooth-off-color @black;
+@define-color pulseaudio-color @orange;
+@define-color pulseaudio-muted-color @red;
+@define-color wireplumber-color @orange;
+@define-color wireplumber-muted-color @red;
+@define-color backlight-color @yellow;
+@define-color disk-color @cyan;
+@define-color language-color @magenta;
+@define-color idle-inhibitor-color @foreground;
+@define-color idle-inhibitor-active-color @red;
+@define-color mpris-color @magenta;
+@define-color media-button-hover-color @blue;
+@define-color power-profiles-daemon-color @cyan;
+@define-color power-profiles-daemon-performance-color @red;
+@define-color power-profiles-daemon-balanced-color @yellow;
+@define-color power-profiles-daemon-power-saver-color @green;
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font Propo";
+    font-size: 14px;
+    min-height: 0;
+    box-shadow: none;
+}
+
+/* Transparent bar: only the islands are visible */
+window#waybar {
+    background: transparent;
+    color: @foreground;
+}
+
+/* ================= ISLANDS ================= */
+#session,
+#hardware,
+#status,
+#media,
+#tray,
+#dock,
+#clock,
+#workspaces,
+#language,
+#window {
+    background-color: @background;
+    color: @foreground;
+    border-radius: 16px;
+    padding: 0 12px;
+    margin: 6px 3px;
+    border: 1px solid alpha(@foreground, 0.08);
+}
+#taskbar,
+.niri-taskbar {
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+#custom-menu {
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0 10px;
+    margin: 4px 2px;
+    border-radius: 10px;
+    background-color: transparent;
+    background-image: url("/home/sunskin/.config/waybar/icons/winux.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px 30px;
+}
+
+#custom-menu:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Hide the window island when nothing is focused */
+#window.empty {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ============ MODULES INSIDE ISLANDS ============ */
+#custom-below {
+    padding: 0 8px;
+    color: @blue;
+    background: transparent;
+}
+#custom-below.urgent {
+    color: @red;
+}
+#mode,
+#custom-hardware-wrap,
+#custom-session-wrap,
+#custom-lock,
+#custom-reboot,
+#custom-power,
+#cpu,
+#memory,
+#temperature,
+#disk,
+#power-profiles-daemon,
+#custom-media,
+#custom-media-prev,
+#custom-media-next,
+#battery,
+#network,
+#bluetooth,
+#pulseaudio,
+#wireplumber,
+#backlight,
+#backlight,
+#custom-displays,
+#idle_inhibitor {
+    background-color: transparent;
+    padding: 0 8px;
+    margin: 0;
+}
+#custom-menu {
+    background-color: @background;
+    color: @foreground;
+    border-radius: 16px;
+    padding: 0 12px;
+    margin: 6px 3px;
+    border: 1px solid alpha(@foreground, 0.08);
+}
+/* ================= TASKBAR ================= */
+#custom-menu {
+    font-size: 14px;
+    padding: 0 8px;
+    color: @blue;
+}
+
+#custom-menu {
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0 10px;
+    background-image: url("/home/sunskin/.config/waybar/icons/winux.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px 30px;
+}
+
+#custom-menu:hover {
+    background-color: @background-light;
+}
+#taskbar,
+.niri-taskbar {
+    padding: 0 4px;
+}
+
+#taskbar button,
+.niri-taskbar button {
+    min-width: 40px;
+    padding: 0;
+    margin: 4px 2px;
+    background: transparent;
+    border-radius: 10px;
+    border-bottom: 3px solid transparent; /* reserve space so hover doesn't resize */
+}
+
+#taskbar button image,
+.niri-taskbar button image {
+    -gtk-icon-transform: scale(1.0);
+    transition-property: -gtk-icon-transform;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+#taskbar button:hover,
+.niri-taskbar button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 3px solid;
+}
+
+#taskbar button:hover image,
+.niri-taskbar button:hover image {
+    -gtk-icon-transform: scale(1.1) translate(4px, 0px);
+}
+
+#taskbar button.active,
+.niri-taskbar button.active,
+#taskbar button:active,
+.niri-taskbar button:active {
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom: 3px solid;
+}
+
+/* ================= WORKSPACES ================= */
+#workspaces {
+    padding: 0 6px;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    margin: 4px 1px;
+    background-color: transparent;
+    color: @workspaces-color;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+#workspaces button:hover {
+    background: @background-light;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+    background-color: alpha(@workspaces-focused-bg, 0.18);
+    color: @workspaces-focused-fg;
+    font-weight: 900;
+}
+
+#workspaces button.urgent {
+    background-color: @workspaces-urgent-bg;
+    color: @workspaces-urgent-fg;
+}
+.niri-taskbar button.focused,
+.niri-taskbar button:active {
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom: 3px solid;
+}
+/* ================= MODULE COLORS ================= */
+#custom-displays          { color: @blue; }
+#custom-displays.unknown  { color: @yellow; }
+#custom-displays.error    { color: @red; }
+#mode                   { color: @mode-color; }
+#custom-hardware-wrap   { color: @group-hardware-color; }
+#custom-session-wrap    { color: @group-session-color; }
+#clock                  { color: @clock-color; }
+#language               { color: @language-color; }
+#window                 { color: @yellow; }
+
+#cpu                    { color: @cpu-color; }
+#memory                 { color: @memory-color; }
+#disk                   { color: @disk-color; }
+
+#temperature            { color: @temperature-color; }
+#temperature.critical   { color: @temperature-critical-color; }
+
+#mpris                  { color: @mpris-color; }
+#mpris.paused           { opacity: 0.6; }
+#custom-media-prev,
+#custom-media-next      { color: @foreground; }
+#mpris:hover,
+#custom-media-prev:hover,
+#custom-media-next:hover { color: @media-button-hover-color; }
+
+#power-profiles-daemon                  { color: @power-profiles-daemon-color; }
+#power-profiles-daemon.performance      { color: @power-profiles-daemon-performance-color; }
+#power-profiles-daemon.balanced         { color: @power-profiles-daemon-balanced-color; }
+#power-profiles-daemon.power-saver      { color: @power-profiles-daemon-power-saver-color; }
+
+#battery                                { color: @battery-color; }
+#battery.charging,
+#battery.plugged                        { color: @battery-charging-color; }
+#battery.warning:not(.charging)         { color: @battery-warning-color; }
+#battery.critical:not(.charging)        { color: @battery-critical-color; }
+
+#network                { color: @network-color; }
+#network.disconnected   { color: @network-disconnected-color; }
+
+#bluetooth              { color: @bluetooth-color; }
+#bluetooth.connected    { color: @bluetooth-connected-color; }
+#bluetooth.off,
+#bluetooth.disabled,
+#bluetooth.no-controller { color: @bluetooth-off-color; }
+
+#pulseaudio             { color: @pulseaudio-color; }
+#pulseaudio.muted       { color: @pulseaudio-muted-color; }
+
+#wireplumber            { color: @wireplumber-color; }
+#wireplumber.muted      { color: @wireplumber-muted-color; }
+
+#backlight              { color: @backlight-color; }
+
+#idle_inhibitor         { color: @idle-inhibitor-color; }
+#idle_inhibitor.activated { color: @idle-inhibitor-active-color; }
+
+/* ================= TRAY ================= */
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: alpha(@red, 0.25);
+    border-radius: 10px;
+}
+
+/* ================= TOOLTIPS ================= */
+tooltip {
+    background-color: @background;
+    border: 1px solid alpha(@foreground, 0.15);
+    border-radius: 12px;
+}
+
+tooltip label {
+    color: @foreground;
+    padding: 2px 4px;
+}
+window {
+    background-color: #212121;
+    color: #e0e0e0;
+    border: 1px solid rgba(224, 224, 224, 0.12);
+    border-radius: 16px;
+    font-family: "JetBrainsMono Nerd Font Propo";
+    font-size: 14px;
+}
+
+entry {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    border-radius: 12px;
+    border: none;
+    padding: 6px 10px;
+    margin: 12px 12px 6px 12px;
+}
+
+button, image {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+button {
+    border-radius: 10px;
+    padding: 6px;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#category-button {
+    margin: 0 4px;
+    padding: 4px 10px;
+    border-radius: 10px;
+    color: #a3e8e8;
+}
+
+#category-button:hover {
+    background-color: #3a3a3a;
+}
+
+#pinned-box {
+    padding: 8px 8px 12px 8px;
+    border-bottom: 1px solid rgba(224, 224, 224, 0.12);
+}
+
+#files-box {
+    padding: 8px 0 0 0;
+    border-top: 1px solid rgba(224, 224, 224, 0.12);
+}
+menu {
+    background-color: @background;
+    border: 1px solid alpha(@foreground, 0.15);
+    border-radius: 12px;
+    padding: 4px;
+}
+menuitem {
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: @foreground;
+}
+menuitem:hover { background-color: @background-light; }
