@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cmd="${1:-status}"
+FROSTWM_BIN="${HOME}/.local/bin/frostwm"
+case "$cmd" in
+  status)
+    if ! systemctl --user is-active --quiet frostwm.service; then
+      printf '{"text":"❄","tooltip":"FrostWM stopped; click to start","class":"off"}\n'
+    else
+      status="$("$FROSTWM_BIN" status 2>/dev/null || true)"
+      if [[ "$status" == *'"enabled": true'* ]]; then
+        printf '{"text":"❄","tooltip":"FrostWM enabled; left-click toggles, right-click gust","class":"on"}\n'
+      else
+        printf '{"text":"❄","tooltip":"FrostWM running but snowfall is off; click to toggle","class":"off"}\n'
+      fi
+    fi
+    ;;
+  toggle)
+    if ! systemctl --user is-active --quiet frostwm.service; then
+      "$FROSTWM_BIN" start >/dev/null
+    else
+      "$FROSTWM_BIN" toggle >/dev/null
+    fi
+    ;;
+  gust)
+    "$FROSTWM_BIN" gust >/dev/null 2>&1 || true
+    ;;
+esac
